@@ -19,9 +19,15 @@ workspace "SafeChat"
 		".config"
 		}
 	
-	include "SafeChatServer"
-	
 	group "Dependencies"
+	group ""
+	
+	group "Servers"
+	include "SafeChatServer"
+	group ""
+	
+	group "Clients"
+	include "SafeChatDesktopClient"
 	group ""
 	
 	group "tests"
