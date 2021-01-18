@@ -28,8 +28,7 @@
 
 int main(int argc, char *argv[])
 	{
-	SafeQueue<std::string> queue;
-	queue.Enqueue("Hello World");
-	queue.Enqueue("My Name is Can");
-	std::cout << queue << std::endl;
+	SAFE_LOG_TRACE("Starting server...");
+
+
 	}

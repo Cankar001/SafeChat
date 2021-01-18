@@ -6,3 +6,6 @@ This Repository contains the server-side of the chat system.
 
 # Getting started
 
+To run the server with visual studio you have to build the solutions first. To do that please run the CreateSolutions.bat file.
+After that you can open the generated Solution file with visual studio and then press f5 on your keyboard, to build and run the solution.
+
