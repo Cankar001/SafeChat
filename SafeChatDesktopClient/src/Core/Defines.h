@@ -1,5 +1,5 @@
 /*****************************************************************
- * \file   Main.cpp
+ * \file   Defines.h
  * \brief  
  * 
  * \author Can Karka
@@ -21,17 +21,16 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/.
  *********************************************************************/
 
-#include "SafePch.h"
+#pragma once
 
-#include "SafeChat.h"
-#include "DataTypes/DataTypes.h"
+#include <memory>
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <fstream>
+#include <sstream>
 
-int main(int argc, char *argv[])
-	{
-	SAFE_LOG_TRACE("Starting server...");
-
-
-
-	return 0;
-	}
 

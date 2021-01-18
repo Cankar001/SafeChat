@@ -2,8 +2,8 @@ include "./vendor/premake5/solution_items.lua"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.architecture}-%{cfg.system}"
 
-includedir                = {}
-librarydir                = {}
+includedir = {}
+librarydir = {}
 
 workspace "SafeChat"
 	architecture "x64"

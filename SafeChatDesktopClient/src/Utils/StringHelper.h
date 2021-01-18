@@ -1,5 +1,5 @@
 /*****************************************************************
- * \file   Main.cpp
+ * \file   StringHelper.h
  * \brief  
  * 
  * \author Can Karka
@@ -21,17 +21,15 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/.
  *********************************************************************/
 
-#include "SafePch.h"
+#pragma once
 
-#include "SafeChat.h"
-#include "DataTypes/DataTypes.h"
+#include "Core/Core.h"
 
-int main(int argc, char *argv[])
+template<typename T>
+std::string safe_to_string(const T &value)
 	{
-	SAFE_LOG_TRACE("Starting server...");
-
-
-
-	return 0;
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
 	}
 
