@@ -3,6 +3,8 @@ include "./vendor/premake5/solution_items.lua"
 outputdir = "%{cfg.buildcfg}-%{cfg.architecture}-%{cfg.system}"
 
 includedir = {}
+includedir["asio"] = "%{wks.location}/vendor/asio/include"
+
 librarydir = {}
 
 workspace "SafeChat"

@@ -26,7 +26,8 @@ project "SafeChatServer"
 		
 	includedirs
 		{
-		"src"
+		"src",
+		"%{includedir.asio}"
 		}
 		
 	postbuildcommands

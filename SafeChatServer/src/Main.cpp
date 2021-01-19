@@ -26,11 +26,25 @@
 #include "SafeChat.h"
 #include "DataTypes/DataTypes.h"
 
+#include "Net/Server.h"
+
 int main(int argc, char *argv[])
 	{
 	SAFE_LOG_TRACE("Starting server...");
 
+	std::string request =
+		"GET /index.php HTTP/1.1\r\n"
+		"Host: cankarka.com\r\n"
+		"Connection: close\r\n\r\n";
 
+	Server *server = Server::Connect("85.13.162.217", 80);
+	server->Accept();
+
+	bool sent = server->Send(request);
+	if (!sent)
+		{
+		std::cerr << "Could not send data!" << std::endl;
+		}
 
 	return 0;
 	}
