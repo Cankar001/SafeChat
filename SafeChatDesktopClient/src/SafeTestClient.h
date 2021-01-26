@@ -1,10 +1,10 @@
 /*****************************************************************
- * \file   Core.h
- * \brief  
- * 
+ * \file   SafeTestClient.h
+ * \brief
+ *
  * \author Can Karka
  * \date   January 2021
- * 
+ *
  * Copyright (C) 2021 Can Karka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,39 @@
 
 #pragma once
 
-#include "Defines.h"
-#include "BaseTypes.h"
-#include "Console.h"
+#include "SafeNetworkAPI.h"
+
+enum class CustomMsgTypes : uint32_t
+	{
+	ServerAccept,
+	ServerDeny,
+	ServerPing,
+	MessageAll,
+	ServerMessage,
+	};
+
+class SafeClientTest : public SafeClient<CustomMsgTypes>
+	{
+	public:
+
+		void PingServer()
+			{
+			SafeMessage<CustomMsgTypes> msg;
+			msg.Header.ID = CustomMsgTypes::ServerPing;
+
+			// Caution with this...
+			std::chrono::system_clock::time_point timeNow = std::chrono::system_clock::now();
+
+			msg << timeNow;
+			Send(msg);
+			}
+
+		void MessageAll()
+			{
+			SafeMessage<CustomMsgTypes> msg;
+			msg.Header.ID = CustomMsgTypes::MessageAll;
+			Send(msg);
+			}
 
 
+	};

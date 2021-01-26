@@ -4,6 +4,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.architecture}-%{cfg.system}"
 
 includedir = {}
 includedir["asio"] = "%{wks.location}/vendor/asio/include"
+includedir["safenet_api"] = "%{wks.location}/SafeNetworkAPI/src"
 
 librarydir = {}
 
@@ -22,15 +23,11 @@ workspace "SafeChat"
 		}
 	
 	group "Dependencies"
+	include "SafeNetworkAPI"
 	group ""
 	
-	group "Servers"
 	include "SafeChatServer"
-	group ""
-	
-	group "Clients"
 	include "SafeChatDesktopClient"
-	group ""
 	
 	group "tests"
 	include "tests/"

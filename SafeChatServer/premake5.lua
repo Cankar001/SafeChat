@@ -13,9 +13,6 @@ project "SafeChatServer"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 	
-	pchheader "SafePch.h"
-	pchsource "src/SafePch.cpp"
-	
 	files
 		{
 		"src/**.c",
@@ -27,6 +24,7 @@ project "SafeChatServer"
 	includedirs
 		{
 		"src",
+		"%{includedir.safenet_api}",
 		"%{includedir.asio}"
 		}
 		

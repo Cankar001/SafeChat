@@ -1,9 +1,8 @@
-project "SafeChatDesktopClient"
-	kind "ConsoleApp"
+project "SafeNetworkAPI"
+	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
 	staticruntime "on"
-	entrypoint "mainCRTStartup"
 	
 	defines
 		{
@@ -12,65 +11,57 @@ project "SafeChatDesktopClient"
 		
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-	
+		
 	files
 		{
-		"src/**.c",
 		"src/**.h",
-		"src/**.hpp",
-		"src/**.cpp"
+		"src/**.hpp"
 		}
 		
 	includedirs
 		{
 		"src",
-		"%{includedir.safenet_api}",
 		"%{includedir.asio}"
-		}
-		
-	postbuildcommands
-		{
-		'{COPY} "assets" "%{cfg.targetdir}/assets"'
 		}
 		
 	filter "system:macosx"
 		systemversion "latest"
-		defines "PLATFORM_MACOS"
+		defines "SAFE_PLATFORM_MACOS"
 				
 		filter "configurations:Debug"
-			defines "_DEBUG"
+			defines "SAFE_DEBUG"
 			runtime "Debug"
 			symbols "on"
 		
 		filter "configurations:Release"
-			defines "_RELEASE"
+			defines "SAFE_RELEASE"
 			runtime "Release"
 			optimize "on"
 				
 	filter "system:linux"
 		systemversion "latest"
-		defines "PLATFORM_LINUX"
+		defines "SAFE_PLATFORM_LINUX"
 			
 		filter "configurations:Debug"
-			defines "_DEBUG"
+			defines "SAFE_DEBUG"
 			runtime "Debug"
 			symbols "on"
 		
 		filter "configurations:Release"
-			defines "_RELEASE"
+			defines "SAFE_RELEASE"
 			runtime "Release"
 			optimize "on"
 			
 	filter "system:windows"
 		systemversion "latest"
-		defines "PLATFORM_WINDOWS"
+		defines "SAFE_PLATFORM_WINDOWS"
 			
 		filter "configurations:Debug"
-			defines "_DEBUG"
+			defines "SAFE_DEBUG"
 			runtime "Debug"
 			symbols "on"
 		
 		filter "configurations:Release"
-			defines "_RELEASE"
+			defines "SAFE_RELEASE"
 			runtime "Release"
 			optimize "on"

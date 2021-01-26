@@ -1,10 +1,10 @@
 /*****************************************************************
- * \file   SafeChat.h
- * \brief  
- * 
+ * \file   SafeAsioInclude.h
+ * \brief
+ *
  * \author Can Karka
  * \date   January 2021
- * 
+ *
  * Copyright (C) 2021 Can Karka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,11 @@
 
 #pragma once
 
-#include "Core/Log.h"
+#ifdef _WIN32
+#define _WIN32_WINNT 0x0A00
+#endif
 
-
+#define ASIO_STANDALONE
+#include <asio.hpp>
+#include <asio/ts/buffer.hpp>
+#include <asio/ts/internet.hpp>

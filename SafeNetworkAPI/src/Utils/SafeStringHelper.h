@@ -1,10 +1,10 @@
 /*****************************************************************
- * \file   SafePch.h
- * \brief  
- * 
+ * \file   SafeStringHelper.h
+ * \brief
+ *
  * \author Can Karka
  * \date   January 2021
- * 
+ *
  * Copyright (C) 2021 Can Karka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,14 @@
 
 #pragma once
 
-#include "Core/Core.h"
+#include <string>
+#include <sstream>
 
+template<typename T>
+static std::string safe_to_string(const T &value)
+	{
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
+	}
 

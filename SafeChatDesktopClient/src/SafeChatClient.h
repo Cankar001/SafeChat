@@ -1,5 +1,5 @@
 /*****************************************************************
- * \file   Core.h
+ * \file   SafeChat.h
  * \brief  
  * 
  * \author Can Karka
@@ -23,8 +23,7 @@
 
 #pragma once
 
-#include "Defines.h"
-#include "BaseTypes.h"
-#include "Console.h"
+#include "SafeNetworkAPI.h"
+#include "SafeTestClient.h"
 
 

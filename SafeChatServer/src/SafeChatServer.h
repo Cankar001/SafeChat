@@ -23,6 +23,6 @@
 
 #pragma once
 
-#include "Core/Log.h"
-
+#include "SafeNetworkAPI.h"
+#include "SafeServerTest.h"
 

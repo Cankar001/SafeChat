@@ -1,10 +1,10 @@
 /*****************************************************************
- * \file   Console.h
- * \brief  
- * 
+ * \file   SafeConsole.h
+ * \brief
+ *
  * \author Can Karka
  * \date   January 2021
- * 
+ *
  * Copyright (C) 2021 Can Karka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  *********************************************************************/
 
 #pragma once
+
 
  // See: https://stackoverflow.com/questions/4053837/colorizing-text-in-the-console-with-c
 
@@ -68,3 +69,4 @@
 #define SAFE_CONSOLE_CURSOR_CURGOHOME(x)    "\033[xf"   /* Geh nach Zeile x und setze Curser auf Anfang */
 #define SAFE_CONSOLE_CURSOR_CURDOWNHOME(x)  "\033[xE"   /*Gehe x Zeilen nach  unten und setzte Curser an den Anfang */
 #define SAFE_CONSOLE_CURSOR_CURUPHOME(x)    "\033[xF"   /* Gehe x Zeilen nach oben und setze Curser an den Anfang */
+

@@ -1,32 +1,59 @@
-/*****************************************************************//**
- * \file   Main.cpp
- * \brief  
- * 
- * \author Can Karka
- * \date   January 2021
- * 
- * Copyright (C) 2021 Can Karka
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see https://www.gnu.org/licenses/.
- *********************************************************************/
-
-#include "SafePch.h"
-#include "SafeChat.h"
+#include "SafeChatClient.h"
 
 int main(int argc, char *arhv[])
 	{
 	SAFE_LOG_TRACE("Starting Client...");
+
+	SafeClientTest c;
+	c.Connect("127.0.0.1", 60000);
+
+	// Replace this with game loop ...
+	while (1)
+		{
+		if (c.IsConnected())
+			{
+			if (!c.GetAllIncomingMessages().IsEmpty())
+				{
+				auto msg = c.GetAllIncomingMessages().Front().Message;
+				c.GetAllIncomingMessages().Dequeue();
+
+				switch (msg.Header.ID)
+					{
+					case CustomMsgTypes::ServerAccept:
+						{
+						// Server has responded to a ping request				
+						std::cout << "Server Accepted Connection\n";
+						break;
+						}
+
+					case CustomMsgTypes::ServerPing:
+						{
+						// Server has responded to a ping request
+						std::chrono::system_clock::time_point timeNow = std::chrono::system_clock::now();
+						std::chrono::system_clock::time_point timeThen;
+
+						msg >> timeThen;
+						std::cout << "Ping: " << std::chrono::duration<double>(timeNow - timeThen).count() << "\n";
+						break;
+						}
+
+					case CustomMsgTypes::ServerMessage:
+						{
+						// Server has responded to a ping request	
+						uint32_t clientID;
+						msg >> clientID;
+						std::cout << "Hello from [" << clientID << "]\n";
+						break;
+						}
+					}
+				}
+			}
+		else
+			{
+			std::cout << "Server Down\n";
+			break;
+			}
+		}
 
 	return 0;
 	}

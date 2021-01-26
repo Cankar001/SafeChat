@@ -1,10 +1,10 @@
 /*****************************************************************
- * \file   DataTypes.h
- * \brief  
- * 
+ * \file   SafeNetworkAPI.h
+ * \brief
+ *
  * \author Can Karka
  * \date   January 2021
- * 
+ *
  * Copyright (C) 2021 Can Karka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,17 @@
 
 #pragma once
 
-#include "List.h"
-#include "Queue.h"
+#include "Core/SafeConsole.h"
+#include "Core/SafeLog.h"
 
+#include "DataTypes/SafeBaseTypes.h"
+#include "DataTypes/SafeList.h"
+#include "DataTypes/SafeThreadSafeQueue.h"
+
+#include "Net/SafeMessage.h"
+#include "Net/SafeConnection.h"
+#include "Net/SafeServer.h"
+#include "Net/SafeClient.h"
+
+#include "Utils/SafeStringHelper.h"
 
