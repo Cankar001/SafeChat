@@ -23,6 +23,7 @@
 
 #pragma once
 
+#include <memory>
 #include <deque>
 #include "SafeAsioInclude.h"
 
@@ -50,12 +51,16 @@ class SafeServer
 
 		virtual void OnClientDisconnected(std::shared_ptr<SafeConnection<T>> client)
 			{
-
 			}
 
 		virtual void OnMessage(std::shared_ptr<SafeConnection<T>> client, SafeMessage<T> &msg)
 			{
+			}
 
+	public:
+
+		virtual void OnClientValidated(std::shared_ptr<SafeConnection<T>> client)
+			{
 			}
 
 	public:
@@ -115,7 +120,7 @@ class SafeServer
 					if (OnClientConnected(newconn))
 						{
 						Connections.push_back(std::move(newconn));
-						Connections.back()->ConnectToClient(nIDCounter++);
+						Connections.back()->ConnectToClient(this, nIDCounter++);
 
 						std::cout << "[" << Connections.back()->GetID() << "] Connection Approved\n";
 						}

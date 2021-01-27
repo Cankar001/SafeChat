@@ -79,6 +79,11 @@ class SafeServerTest : public SafeServer<CustomMsgTypes>
 
 	public:
 
+		virtual void OnClientValidated(std::shared_ptr<SafeConnection<CustomMsgTypes>> server) override
+			{
+			std::cout << "Client " << server->GetID() << " has been validated!" << std::endl;
+			}
+
 		SafeServerTest(uint16_t port)
 			: SafeServer<CustomMsgTypes>(port)
 			{

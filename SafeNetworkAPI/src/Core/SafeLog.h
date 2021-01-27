@@ -27,8 +27,8 @@
 #include <string>
 #include <iostream>
 
-#include "Core/SafeConsole.h"
 #include "Utils/SafeStringHelper.h"
+#include "Core/SafeConsole.h"
 
 enum class SafeLogLevel
 	{
@@ -56,6 +56,10 @@ class SafeLog
 
 		SafeLog(SafeLogLevel level)
 			: Severity(level)
+			{
+			}
+
+		~SafeLog()
 			{
 			}
 

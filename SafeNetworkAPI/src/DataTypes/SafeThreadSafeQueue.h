@@ -54,6 +54,9 @@ class SafeThreadSafeQueue
 			{
 			std::scoped_lock lock(Mutex);
 			List.Append(value);
+
+			std::unique_lock<std::mutex> ul(MUXMutex);
+			CVBlocking.notify_one();
 			}
 
 		void Dequeue()

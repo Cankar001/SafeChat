@@ -31,7 +31,7 @@ class SafeList
 			{
 			T Value;
 			Node *Next;
-			Node(T value) : Value(value) {}
+			Node(T value) : Value(value), Next(nullptr) {}
 			};
 
 		void Append(Node *parent, T value)
@@ -72,7 +72,7 @@ class SafeList
 				}
 			else
 				{
-				Append(Root->Next, value);
+				Append(Root, value);
 				}
 			}
 
