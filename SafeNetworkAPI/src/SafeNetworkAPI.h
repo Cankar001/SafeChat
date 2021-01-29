@@ -28,7 +28,10 @@
 
 #include "DataTypes/SafeBaseTypes.h"
 #include "DataTypes/SafeList.h"
+#include "DataTypes/SafeQueue.h"
+#include "DataTypes/SafeStack.h"
 #include "DataTypes/SafeThreadSafeQueue.h"
+#include "DataTypes/SafeThreadSafeStack.h"
 
 #include "Net/SafeMessage.h"
 #include "Net/SafeConnection.h"

@@ -26,11 +26,11 @@ workspace "SafeChat"
 	include "SafeNetworkAPI"
 	group ""
 	
+	group "examples"
+	include "examples/"
+	group ""
+	
 	include "SafeChatServer"
 	include "SafeChatDesktopClient"
-	
-	group "tests"
-	include "tests/"
-	group ""
 	
 	

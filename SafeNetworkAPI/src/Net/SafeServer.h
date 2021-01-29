@@ -44,6 +44,8 @@ class SafeServer
 		asio::ip::tcp::acceptor AsioAcceptor; // Handles new incoming connection attempts...
 		uint32_t nIDCounter = 10000; // Clients will be identified in the "wider system" via an ID
 
+		bool PrintVerbose;
+
 		virtual bool OnClientConnected(std::shared_ptr<SafeConnection<T>> client)
 			{
 			return false;
@@ -65,8 +67,8 @@ class SafeServer
 
 	public:
 
-		SafeServer(uint16_t port)
-			: AsioAcceptor(Context, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
+		SafeServer(uint16_t port, bool verbose = false)
+			: AsioAcceptor(Context, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port)), PrintVerbose(verbose)
 			{
 			}
 
@@ -84,11 +86,14 @@ class SafeServer
 				}
 			catch (std::exception &e)
 				{
-				std::cerr << "[SERVER] Exception: " << e.what() << "\n";
+				if (PrintVerbose)
+					SAFE_LOG_ERROR("Exception: %s", e.what());
+
 				return false;
 				}
 
-			std::cout << "Server Started!\n";
+			if (PrintVerbose)
+				SAFE_LOG_TRACE("Server Started!");
 			return true;
 			}
 
@@ -99,7 +104,8 @@ class SafeServer
 			if (Thread.joinable())
 				Thread.join();
 
-			std::cout << "Server Stopped!\n";
+			if (PrintVerbose)
+				SAFE_LOG_TRACE("Server Stopped!");
 			}
 
 		void WaitForClientConnection()
@@ -111,7 +117,9 @@ class SafeServer
 				{
 				if (!ec)
 					{
-					std::cout << "Server New Connection: " << socket.remote_endpoint() << "\n";
+					//std::cout << "Server New Connection: " << socket.remote_endpoint() << "\n";
+					if (PrintVerbose)
+						SAFE_LOG_TRACE("[SERVER] New Connection: %s:%d", socket.remote_endpoint().address().to_string().c_str(), socket.remote_endpoint().port());
 
 					std::shared_ptr<SafeConnection<T>> newconn =
 						std::make_shared<SafeConnection<T>>(SafeConnection<T>::Owner::Server,
@@ -122,16 +130,19 @@ class SafeServer
 						Connections.push_back(std::move(newconn));
 						Connections.back()->ConnectToClient(this, nIDCounter++);
 
-						std::cout << "[" << Connections.back()->GetID() << "] Connection Approved\n";
+						if (PrintVerbose)
+							SAFE_LOG_TRACE("[%d] Connection Approved!", Connections.back()->GetID());
 						}
 					else
 						{
-						std::cout << "[-----] Connection Denied\n";
+						if (PrintVerbose)
+							SAFE_LOG_WARN("[-----] Connection Denied");
 						}
 					}
 				else
 					{
-					std::cout << "Server New Connection Error: " << ec.message() << "\n";
+					if (PrintVerbose)
+						SAFE_LOG_ERROR("[SERVER] New Connection Error: %s", ec.message().c_str());
 					}
 
 				WaitForClientConnection();
@@ -178,7 +189,13 @@ class SafeServer
 					std::remove(Connections.begin(), Connections.end(), nullptr), Connections.end());
 			}
 
-		void Update(size_t maxMessages = -1, bool wait = false)
+		void StartListening()
+			{
+			while (1)
+				Listen(-1, true);
+			}
+
+		void Listen(size_t maxMessages = -1, bool wait = false)
 			{
 			if (wait) MessagesIn.Wait();
 

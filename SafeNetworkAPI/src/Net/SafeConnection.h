@@ -61,6 +61,8 @@ class SafeConnection : public std::enable_shared_from_this<SafeConnection<T>>
 
 	private:
 
+		bool PrintVerbose;
+
 		void WriteHeader()
 			{
 			asio::async_write(Socket, asio::buffer(&MessagesOut.Front().Header, sizeof(SafeMessageHeader<T>)),
@@ -84,7 +86,8 @@ class SafeConnection : public std::enable_shared_from_this<SafeConnection<T>>
 					}
 				else
 					{
-					std::cout << "[" << ID << "] Write Header Fail.\n";
+					if (PrintVerbose)
+						SAFE_LOG_ERROR("[%d] Write Header Failed.", ID);
 					Socket.close();
 					}
 				});
@@ -105,7 +108,8 @@ class SafeConnection : public std::enable_shared_from_this<SafeConnection<T>>
 					}
 				else
 					{
-					std::cout << "[" << ID << "] Write Body Fail.\n";
+					if (PrintVerbose)
+						SAFE_LOG_ERROR("[%d] Write Body Failed.", ID);
 					Socket.close();
 					}
 				});
@@ -130,7 +134,9 @@ class SafeConnection : public std::enable_shared_from_this<SafeConnection<T>>
 					}
 				else
 					{
-					std::cout << "[" << ID << "] Read Header Fail.\n";
+					// The connection seems to get lost, so just close the socket
+					if (PrintVerbose)
+						SAFE_LOG_ERROR("[%d] Read Header Failed.", ID);
 					Socket.close();
 					}
 				});
@@ -147,7 +153,8 @@ class SafeConnection : public std::enable_shared_from_this<SafeConnection<T>>
 					}
 				else
 					{
-					std::cout << "[" << ID << "] Read Body Fail.\n";
+					if (PrintVerbose)
+						SAFE_LOG_ERROR("[%d] Read Body Failed.", ID);
 					Socket.close();
 					}
 				});
@@ -188,7 +195,7 @@ class SafeConnection : public std::enable_shared_from_this<SafeConnection<T>>
 
 		void ReadValidation(SafeServer<T> *server = nullptr)
 			{
-			asio::async_read(Socket, asio::buffer(&HandshakeIn, sizeof(uint64_t)), [this](std::error_code ec, std::size_t length)
+			asio::async_read(Socket, asio::buffer(&HandshakeIn, sizeof(uint64_t)), [this, server](std::error_code ec, std::size_t length)
 				{
 				if (!ec)
 					{
@@ -196,15 +203,16 @@ class SafeConnection : public std::enable_shared_from_this<SafeConnection<T>>
 						{
 						if (HandshakeIn == HandshakeCheck) // Did the client really solve my hard puzzle?
 							{
-							std::cout << "Client validated!" << std::endl;
-							// TODO: server OnClientValidated method call here
+							SAFE_LOG_TRACE("Client validated!");
+							server->OnClientValidated(this->shared_from_this());
 
 							ReadHeader();
 							}
 						else
 							{
 							// Client failed the puzzle! I knew my puzzles were too hard!
-							std::cout << "Client disconnected (validation failed)" << std::endl;
+							if (PrintVerbose)
+								SAFE_LOG_ERROR("Client disconnected (validation failed)");
 							Socket.close();
 
 							// Maybe we could increment a counter here and if it reaches a limit we could bann a client from the server?
@@ -221,7 +229,8 @@ class SafeConnection : public std::enable_shared_from_this<SafeConnection<T>>
 					}
 				else
 					{
-					std::cout << "Client Disconnected (ReadValidation)" << std::endl;
+					if (PrintVerbose)
+						SAFE_LOG_ERROR("Client disconnected (ReadValidation)");
 					Socket.close();
 					}
 				});
@@ -229,8 +238,8 @@ class SafeConnection : public std::enable_shared_from_this<SafeConnection<T>>
 
 	public:
 
-		SafeConnection(Owner parent, asio::io_context &context, asio::ip::tcp::socket socket, SafeThreadSafeQueue<SafeOwnedMessage<T>> &messagesIn)
-			: Context(context), Socket(std::move(socket)), MessagesIn(messagesIn), MessageOwner(parent)
+		SafeConnection(Owner parent, asio::io_context &context, asio::ip::tcp::socket socket, SafeThreadSafeQueue<SafeOwnedMessage<T>> &messagesIn, bool verbose = false)
+			: Context(context), Socket(std::move(socket)), MessagesIn(messagesIn), MessageOwner(parent), PrintVerbose(verbose)
 			{
 
 			if (parent == Owner::Server)

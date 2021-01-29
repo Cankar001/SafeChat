@@ -36,10 +36,12 @@ class SafeClient
 
 	private:
 		SafeThreadSafeQueue<SafeOwnedMessage<T>> MessagesIn;
+		bool PrintVerbose;
 
 	public:
 
-		SafeClient()
+		SafeClient(bool verbose = false)
+			: PrintVerbose(verbose)
 			{
 			}
 
@@ -62,7 +64,8 @@ class SafeClient
 				}
 			catch (std::exception &e)
 				{
-				std::cerr << "Client Exception: " << e.what() << "\n";
+				if (PrintVerbose)
+					SAFE_LOG_ERROR("Client Exception: %s", e.what());
 				return false;
 				}
 

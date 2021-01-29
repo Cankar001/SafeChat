@@ -1,4 +1,4 @@
-project "SafeChatDesktopClient"
+project "SimpleInteractionClient"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
@@ -26,11 +26,6 @@ project "SafeChatDesktopClient"
 		"src",
 		"%{includedir.safenet_api}",
 		"%{includedir.asio}"
-		}
-		
-	postbuildcommands
-		{
-		'{COPY} "assets" "%{cfg.targetdir}/assets"'
 		}
 		
 	filter "system:macosx"
@@ -74,3 +69,5 @@ project "SafeChatDesktopClient"
 			defines "SAFE_RELEASE"
 			runtime "Release"
 			optimize "on"
+			
+			

@@ -47,7 +47,7 @@ struct SafeMessage
 	template<typename DataType>
 	friend SafeMessage<T> &operator<<(SafeMessage<T> &msg, const DataType &value)
 		{
-		static_assert(std::is_standard_layout<DataType>::value, "Data is too complex to be pushed into vector");
+		static_assert(std::is_standard_layout<DataType>::value, "Data is too complex");
 		size_t i = msg.Body.size();
 
 		msg.Body.resize(msg.Body.size() + sizeof(DataType));
@@ -60,7 +60,7 @@ struct SafeMessage
 	template<typename DataType>
 	friend SafeMessage<T> &operator>>(SafeMessage<T> &msg, DataType &value)
 		{
-		static_assert(std::is_standard_layout<DataType>::value, "Data is too complex to be pulled from vector");
+		static_assert(std::is_standard_layout<DataType>::value, "Data is too complex");
 		size_t i = msg.Body.size() - sizeof(DataType);
 
 		std::memcpy(&value, msg.Body.data() + i, sizeof(DataType));

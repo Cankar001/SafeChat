@@ -1,10 +1,10 @@
 /*****************************************************************
- * \file   SafeTestClient.h
- * \brief
- *
+ * \file   SafeStack.h
+ * \brief  
+ * 
  * \author Can Karka
  * \date   January 2021
- *
+ * 
  * Copyright (C) 2021 Can Karka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,39 +23,73 @@
 
 #pragma once
 
-#include <SafeNetworkAPI.h>
+#include "SafeList.h"
+#include <iostream>
 
-enum class CustomMsgTypes : uint32_t
+template<typename T>
+class SafeStack
 	{
-	ServerAccept,
-	ServerDeny,
-	ServerPing,
-	MessageAll,
-	ServerMessage,
-	};
+	private:
+		SafeList<T> List;
 
-class SafeClientTest : public SafeClient<CustomMsgTypes>
-	{
 	public:
 
-		void PingServer()
+		SafeStack()
 			{
-			SafeMessage<CustomMsgTypes> msg;
-			msg.Header.ID = CustomMsgTypes::ServerPing;
-
-			// Caution with this...
-			std::chrono::system_clock::time_point timeNow = std::chrono::system_clock::now();
-
-			msg << timeNow;
-			Send(msg);
 			}
 
-		void MessageAll()
+		~SafeStack()
 			{
-			SafeMessage<CustomMsgTypes> msg;
-			msg.Header.ID = CustomMsgTypes::MessageAll;
-			Send(msg);
 			}
 
+		SafeStack(const SafeStack<T>&) = default;
+		SafeStack<T> &operator=(const SafeStack<T>&) = default;
 
+		void Push(const T &value)
+			{
+			List.Append(value);
+			}
+
+		void Pop()
+			{
+			List.RemoveLast();
+			}
+
+		T Top()
+			{
+			return List.GetLast();
+			}
+
+		bool IsEmpty()
+			{
+			return List.IsEmpty();
+			}
+
+		uint32_t Size()
+			{
+			return List.Size();
+			}
+
+		void Clear()
+			{
+			List.Clear();
+			}
+
+		void Print()
+			{
+			List.Print();
+			}
+
+		friend std::ostream &operator<<(std::ostream &stream, SafeStack<T> &stack)
+			{
+			while (!stack.IsEmpty())
+				{
+				T element = stack.Top();
+				stack.Pop();
+				stream << element << std::endl;
+				}
+
+			return stream;
+			}
 	};
+

@@ -69,29 +69,28 @@ class SafeLog
 			std::string out = format;
 			va_start(args, format);
 
-			printf(SAFE_CONSOLE_FONT_BRIGHT);
 			switch (Severity)
 				{
 				case SafeLogLevel::FatalLevel:
 				case SafeLogLevel::ErrorLevel:
-					printf(SAFE_CONSOLE_COLOR_RED);
+					safe_set_console_color(SAFE_CONSOLE_COLOR_LIGHT_RED);
 					break;
 
 				case SafeLogLevel::InfoLevel:
-					printf(SAFE_CONSOLE_COLOR_BLUE);
+					safe_set_console_color(SAFE_CONSOLE_COLOR_LIGHT_BLUE);
 					break;
 
 				case SafeLogLevel::WarningLevel:
-					printf(SAFE_CONSOLE_COLOR_YELLOW);
+					safe_set_console_color(SAFE_CONSOLE_COLOR_LIGHT_YELLOW);
 					break;
 
 				case SafeLogLevel::TraceLevel:
-					printf(SAFE_CONSOLE_COLOR_GREEN);
+					safe_set_console_color(SAFE_CONSOLE_COLOR_LIGHT_GREEN);
 					break;
 
 				case SafeLogLevel::None:
 				default:
-					printf(SAFE_CONSOLE_COLOR_WHITE);
+					safe_set_console_color(SAFE_CONSOLE_COLOR_LIGHT_WHITE);
 					break;
 				}
 
@@ -155,7 +154,7 @@ class SafeLog
 
 			va_end(args);
 			std::cout << out << std::endl;
-			printf(SAFE_CONSOLE_COLOR_WHITE);
+			safe_set_console_color();
 			}
 	};
 
