@@ -9,23 +9,23 @@ SimpleInteractionServer::~SimpleInteractionServer()
 	{
 	}
 
-void SimpleInteractionServer::OnClientValidated(std::shared_ptr<SafeConnection<SimpleMessageType>> client)
+void SimpleInteractionServer::OnClientValidated(const std::shared_ptr<SafeConnection<SimpleMessageType>> &client)
 	{
 	SAFE_LOG_TRACE("CLIENT {%d} VALIDATED SUCCESSFULLY!", client->GetID());
 	}
 
-bool SimpleInteractionServer::OnClientConnected(std::shared_ptr<SafeConnection<SimpleMessageType>> client)
+bool SimpleInteractionServer::OnClientConnected(const std::shared_ptr<SafeConnection<SimpleMessageType>> &client)
 	{
 	SAFE_LOG_TRACE("CLIENT {%d} CONNECTED TO SERVER!", client->GetID());
 	return true;
 	}
 
-void SimpleInteractionServer::OnClientDisconnected(std::shared_ptr<SafeConnection<SimpleMessageType>> client)
+void SimpleInteractionServer::OnClientDisconnected(const std::shared_ptr<SafeConnection<SimpleMessageType>> &client)
 	{
 	SAFE_LOG_TRACE("CLIENT {%d} DISCONNECTED FROM SERVER!", client->GetID());
 	}
 
-void SimpleInteractionServer::OnMessage(std::shared_ptr<SafeConnection<SimpleMessageType>> client, SafeMessage<SimpleMessageType> &msg)
+void SimpleInteractionServer::OnMessage(const std::shared_ptr<SafeConnection<SimpleMessageType>> &client, SafeMessage<SimpleMessageType> &msg)
 	{
 	switch (msg.Header.ID)
 		{

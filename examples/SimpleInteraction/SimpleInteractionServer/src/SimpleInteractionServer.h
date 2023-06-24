@@ -53,9 +53,9 @@ class SimpleInteractionServer : public SafeServer<SimpleMessageType>
 		 * 
 		 * If a client was validated to not be an enemy attacker this callback method is called.
 		 * 
-		 * @param server 
+		 * @param client
 		 */
-		virtual void OnClientValidated(std::shared_ptr<SafeConnection<SimpleMessageType>> server) override;
+		virtual void OnClientValidated(const std::shared_ptr<SafeConnection<SimpleMessageType>> &client) override;
 
 	protected:
 
@@ -66,7 +66,7 @@ class SimpleInteractionServer : public SafeServer<SimpleMessageType>
 		 * @param client
 		 * @return 
 		 */
-		virtual bool OnClientConnected(std::shared_ptr<SafeConnection<SimpleMessageType>> client) override;
+		virtual bool OnClientConnected(const std::shared_ptr<SafeConnection<SimpleMessageType>> &client) override;
 
 		/**
 		 * 
@@ -74,7 +74,7 @@ class SimpleInteractionServer : public SafeServer<SimpleMessageType>
 		 * 
 		 * @param client
 		 */
-		virtual void OnClientDisconnected(std::shared_ptr<SafeConnection<SimpleMessageType>> client) override;
+		virtual void OnClientDisconnected(const std::shared_ptr<SafeConnection<SimpleMessageType>> &client) override;
 
 		/**
 		 * 
@@ -83,5 +83,5 @@ class SimpleInteractionServer : public SafeServer<SimpleMessageType>
 		 * @param client
 		 * @param msg
 		 */
-		virtual void OnMessage(std::shared_ptr<SafeConnection<SimpleMessageType>> client, SafeMessage<SimpleMessageType> &msg) override;
+		virtual void OnMessage(const std::shared_ptr<SafeConnection<SimpleMessageType>> &client, SafeMessage<SimpleMessageType> &msg) override;
 	};

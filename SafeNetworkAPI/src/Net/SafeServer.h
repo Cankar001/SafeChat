@@ -46,22 +46,22 @@ class SafeServer
 
 		bool PrintVerbose;
 
-		virtual bool OnClientConnected(std::shared_ptr<SafeConnection<T>> client)
+		virtual bool OnClientConnected(const std::shared_ptr<SafeConnection<T>> &client)
 			{
 			return false;
 			}
 
-		virtual void OnClientDisconnected(std::shared_ptr<SafeConnection<T>> client)
+		virtual void OnClientDisconnected(const std::shared_ptr<SafeConnection<T>> &client)
 			{
 			}
 
-		virtual void OnMessage(std::shared_ptr<SafeConnection<T>> client, SafeMessage<T> &msg)
+		virtual void OnMessage(const std::shared_ptr<SafeConnection<T>> &client, SafeMessage<T> &msg)
 			{
 			}
 
 	public:
 
-		virtual void OnClientValidated(std::shared_ptr<SafeConnection<T>> client)
+		virtual void OnClientValidated(const std::shared_ptr<SafeConnection<T>> &client)
 			{
 			}
 

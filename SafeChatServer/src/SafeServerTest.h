@@ -37,7 +37,7 @@ enum class CustomMsgTypes : uint32_t
 class SafeServerTest : public SafeServer<CustomMsgTypes>
 	{
 	protected:
-		virtual bool OnClientConnected(std::shared_ptr<SafeConnection<CustomMsgTypes>> client) override
+		virtual bool OnClientConnected(const std::shared_ptr<SafeConnection<CustomMsgTypes>> &client) override
 			{
 			SafeMessage<CustomMsgTypes> msg;
 			msg.Header.ID = CustomMsgTypes::ServerAccept;
@@ -45,12 +45,12 @@ class SafeServerTest : public SafeServer<CustomMsgTypes>
 			return true;
 			}
 
-		virtual void OnClientDisconnected(std::shared_ptr<SafeConnection<CustomMsgTypes>> client) override
+		virtual void OnClientDisconnected(const std::shared_ptr<SafeConnection<CustomMsgTypes>> &client) override
 			{
 			std::cout << "Removing client [" << client->GetID() << "]\n";
 			}
 
-		virtual void OnMessage(std::shared_ptr<SafeConnection<CustomMsgTypes>> client, SafeMessage<CustomMsgTypes> &msg) override
+		virtual void OnMessage(const std::shared_ptr<SafeConnection<CustomMsgTypes>> &client, SafeMessage<CustomMsgTypes> &msg) override
 			{
 			switch (msg.Header.ID)
 				{
@@ -79,9 +79,9 @@ class SafeServerTest : public SafeServer<CustomMsgTypes>
 
 	public:
 
-		virtual void OnClientValidated(std::shared_ptr<SafeConnection<CustomMsgTypes>> server) override
+		virtual void OnClientValidated(const std::shared_ptr<SafeConnection<CustomMsgTypes>> &client) override
 			{
-			std::cout << "Client " << server->GetID() << " has been validated!" << std::endl;
+			std::cout << "Client " << client->GetID() << " has been validated!" << std::endl;
 			}
 
 		SafeServerTest(uint16_t port, bool verbose = false)
