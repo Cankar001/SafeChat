@@ -30,7 +30,6 @@ project "SafeChatServer"
 		
 	postbuildcommands
 		{
-		'{COPY} "assets" "%{cfg.targetdir}/assets"'
 		}
 		
 	filter "system:macosx"
