@@ -39,9 +39,7 @@ class SafeServerTest : public SafeServer<CustomMsgTypes>
 	protected:
 		virtual bool OnClientConnected(const std::shared_ptr<SafeConnection<CustomMsgTypes>> &client) override
 			{
-			SafeMessage<CustomMsgTypes> msg;
-			msg.Header.ID = CustomMsgTypes::ServerAccept;
-			client->Send(msg);
+			std::cout << "Client " << client->GetID() << " has connected, validating client..." << std::endl;
 			return true;
 			}
 
@@ -82,6 +80,9 @@ class SafeServerTest : public SafeServer<CustomMsgTypes>
 		virtual void OnClientValidated(const std::shared_ptr<SafeConnection<CustomMsgTypes>> &client) override
 			{
 			std::cout << "Client " << client->GetID() << " has been validated!" << std::endl;
+			SafeMessage<CustomMsgTypes> msg;
+			msg.Header.ID = CustomMsgTypes::ServerAccept;
+			client->Send(msg);
 			}
 
 		SafeServerTest(uint16_t port, bool verbose = false)

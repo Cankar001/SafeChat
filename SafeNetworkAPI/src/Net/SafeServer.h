@@ -165,15 +165,21 @@ class SafeServer
 				}
 			}
 
-		void MessageAllClients(const SafeMessage<T> &msg, std::shared_ptr<SafeConnection<T>> ignoreClient = nullptr)
+		void MessageAllClients(const SafeMessage<T> &msg, const std::shared_ptr<SafeConnection<T>> &ignoreClient = nullptr)
 			{
 			bool invalidClientExists = false;
 
-			for (auto &client : Connections)
+			for (std::shared_ptr<SafeConnection<T>> &client : Connections)
 				{
 				if (client && client->IsConnected())
 					{
-					if (client != ignoreClient)
+					if (!ignoreClient)
+						{
+						client->Send(msg);
+						continue;
+						}
+
+					if (client.get() != ignoreClient.get())
 						client->Send(msg);
 					}
 				else

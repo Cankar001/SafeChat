@@ -1,6 +1,6 @@
 #include "SafeChatClient.h"
 
-int main(int argc, char *arhv[])
+int main(int argc, char *argv[])
 	{
 	SAFE_LOG_TRACE("Starting Client...");
 
@@ -15,12 +15,11 @@ int main(int argc, char *arhv[])
 	bool quit = false;
 	while (!quit)
 		{
-		if (GetForegroundWindow() == GetConsoleWindow())
-			{
-			key[0] = GetAsyncKeyState('1') & 0x8000;
-			key[1] = GetAsyncKeyState('2') & 0x8000;
-			key[2] = GetAsyncKeyState('3') & 0x8000;
-			}
+		std::cout << "Own ID: " << c.GetOwnID() << std::endl;
+
+		key[0] = GetAsyncKeyState('1') & 0x8000;
+		key[1] = GetAsyncKeyState('2') & 0x8000;
+		key[2] = GetAsyncKeyState('3') & 0x8000;
 
 		if (key[0] == !old_key[0]) c.PingServer();
 		if (key[1] == !old_key[1]) c.MessageAll();
@@ -58,7 +57,13 @@ int main(int argc, char *arhv[])
 						{
 						uint32_t clientID;
 						msg >> clientID;
-						std::cout << "Hello from [" << clientID << "]\n";
+
+						uint32_t own_id = c.GetOwnID();
+						if (own_id != clientID)
+							{
+							std::cout << "Hello from [" << clientID << "]\n";
+							}
+
 						break;
 						}
 					}

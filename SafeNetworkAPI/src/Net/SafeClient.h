@@ -103,4 +103,12 @@ class SafeClient
 			{
 			return MessagesIn;
 			}
+
+		uint32_t GetOwnID()
+			{
+			if (!Connection)
+				return 0;
+
+			return Connection->GetID();
+			}
 	};
