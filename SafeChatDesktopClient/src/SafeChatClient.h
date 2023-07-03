@@ -1,10 +1,10 @@
 /*****************************************************************
- * \file   SafeChat.h
- * \brief  
- * 
+ * \file   SafeChatClient.h
+ * \brief
+ *
  * \author Can Karka
  * \date   January 2021
- * 
+ *
  * Copyright (C) 2021 Can Karka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,29 @@
 
 #pragma once
 
-#include "SafeNetworkAPI.h"
-#include "SafeTestClient.h"
+#include <SafeNetworkAPI.h>
 
+enum class ClientMessageTypes : uint32_t
+{
+	ServerAccept,
+	ServerDeny,
+	ServerPing,
+	MessageAll,
+	ServerMessage,
+};
+
+class SafeClientInstance : public SafeClient<ClientMessageTypes>
+{
+public:
+
+	SafeClientInstance();
+	~SafeClientInstance();
+
+	void PingServer();
+	void MessageAll();
+
+private:
+
+
+};
 

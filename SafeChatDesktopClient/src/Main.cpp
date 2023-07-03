@@ -1,10 +1,10 @@
 #include "SafeChatClient.h"
 
 int main(int argc, char *argv[])
-	{
+{
 	SAFE_LOG_TRACE("Starting Client...");
 
-	SafeClientTest c;
+	SafeClientInstance c;
 	c.Connect("127.0.0.1", 60000);
 
 	// Temp keyboard input
@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	// Replace this with game loop ...
 	bool quit = false;
 	while (!quit)
-		{
+	{
 		std::cout << "Own ID: " << c.GetOwnID() << std::endl;
 
 		key[0] = GetAsyncKeyState('1') & 0x8000;
@@ -29,32 +29,32 @@ int main(int argc, char *argv[])
 			old_key[i] = key[i];
 
 		if (c.IsConnected())
-			{
+		{
 			if (!c.GetAllIncomingMessages().IsEmpty())
-				{
+			{
 				auto msg = c.GetAllIncomingMessages().Front().Message;
 				c.GetAllIncomingMessages().Dequeue();
 
 				switch (msg.Header.ID)
+				{
+					case ClientMessageTypes::ServerAccept:
 					{
-					case CustomMsgTypes::ServerAccept:
-						{
 						std::cout << "Server Accepted Connection\n";
 						break;
-						}
+					}
 
-					case CustomMsgTypes::ServerPing:
-						{
+					case ClientMessageTypes::ServerPing:
+					{
 						std::chrono::system_clock::time_point timeNow = std::chrono::system_clock::now();
 						std::chrono::system_clock::time_point timeThen;
 
 						msg >> timeThen;
 						std::cout << "Ping: " << std::chrono::duration<double>(timeNow - timeThen).count() << "\n";
 						break;
-						}
+					}
 
-					case CustomMsgTypes::ServerMessage:
-						{
+					case ClientMessageTypes::ServerMessage:
+					{
 						uint32_t clientID;
 						msg >> clientID;
 
@@ -65,17 +65,17 @@ int main(int argc, char *argv[])
 							}
 
 						break;
-						}
 					}
 				}
 			}
+		}
 		else
-			{
+		{
 			std::cout << "Server Down\n";
 			break;
-			}
 		}
+	}
 
 	return 0;
-	}
+}
 

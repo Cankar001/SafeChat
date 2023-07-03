@@ -1,10 +1,10 @@
 /*****************************************************************
- * \file   SafeChat.h
- * \brief  
- * 
+ * \file   SafeChatServer.h
+ * \brief
+ *
  * \author Can Karka
  * \date   January 2021
- * 
+ *
  * Copyright (C) 2021 Can Karka
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,34 @@
 
 #pragma once
 
-#include "SafeNetworkAPI.h"
-#include "SafeServerTest.h"
+#include <SafeNetworkAPI.h>
+
+enum class ServerMessageTypes : uint32_t
+{
+	ServerAccept,
+	ServerDeny,
+	ServerPing,
+	MessageAll,
+	ServerMessage,
+};
+
+class SafeServerInstance : public SafeServer<ServerMessageTypes >
+{
+public:
+
+	SafeServerInstance(uint16_t port, bool verbose = false);
+	~SafeServerInstance();
+
+	virtual void OnClientValidated(const std::shared_ptr<SafeConnection<ServerMessageTypes >> &client) override;
+
+protected:
+	
+	virtual bool OnClientConnected(const std::shared_ptr<SafeConnection<ServerMessageTypes >> &client) override;
+	virtual void OnClientDisconnected(const std::shared_ptr<SafeConnection<ServerMessageTypes >> &client) override;
+	virtual void OnMessage(const std::shared_ptr<SafeConnection<ServerMessageTypes >> &client, SafeMessage<ServerMessageTypes> &msg) override;
+
+private:
+
+
+};
 
