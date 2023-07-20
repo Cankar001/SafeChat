@@ -3,34 +3,36 @@ include "./vendor/premake5/solution_items.lua"
 outputdir = "%{cfg.buildcfg}-%{cfg.architecture}-%{cfg.system}"
 
 includedir = {}
-includedir["asio"] = "%{wks.location}/vendor/asio/include"
-includedir["safenet_api"] = "%{wks.location}/SafeNetworkAPI/src"
+includedir["safechat_core"]    = "%{wks.location}/SafeChat-Core/src"
+includedir["steam_networking"] = "%{wks.location}/vendor/Steam/GameNetworkingSockets/include"
 
 librarydir = {}
+librarydir["steam_networking_windows_debug"] = "%{wks.location}/vendor/Steam/GameNetworkingSockets/bin/Windows/Debug/GameNetworkingSockets.lib"
+librarydir["steam_networking_windows"] = "%{wks.location}/vendor/Steam/GameNetworkingSockets/bin/Windows/Release/GameNetworkingSockets.lib"
 
 workspace "SafeChat"
 	architecture "x64"
 	
 	configurations
-		{
+	{
 		"Debug",
 		"Release"
-		}
+	}
 		
 	solution_items
-		{
+	{
 		".config"
-		}
-	
+	}
+
 	group "Dependencies"
-	include "SafeNetworkAPI"
+	include "SafeChat-Core"
 	group ""
 	
-	group "examples"
-	include "examples/"
-	group ""
+	--group "examples"
+	--include "examples/"
+	--group ""
 	
-	include "SafeChatServer"
-	include "SafeChatDesktopClient"
+	include "SafeChat-Server"
+	include "SafeChat-Client"
 	
 	
