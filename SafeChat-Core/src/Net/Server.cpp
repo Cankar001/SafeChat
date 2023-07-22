@@ -68,12 +68,12 @@ namespace SafeChat
 	
 	void Server::SendStringToClient(ClientID clientID, const std::string &text, bool reliable)
 	{
-		SendToClient(clientID, (Byte*)text.data(), text.size(), reliable);
+		SendToClient(clientID, (Byte*)text.data(), (uint32)text.size(), reliable);
 	}
 	
 	void Server::SendStringToAllClients(const std::string &text, ClientID excludeClientID, bool reliable)
 	{
-		SendToAllClients((Byte*)text.data(), text.size(), excludeClientID, reliable);
+		SendToAllClients((Byte*)text.data(), (uint32)text.size(), excludeClientID, reliable);
 	}
 	
 	void Server::KickClient(ClientID clientID)
