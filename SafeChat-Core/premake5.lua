@@ -4,6 +4,9 @@ project "SafeChat-Core"
 	cppdialect "C++17"
 	staticruntime "off"
 
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-obj/" .. outputdir .. "/%{prj.name}")
+
 	files { "src/**.h", "src/**.cpp" }
 
 	includedirs

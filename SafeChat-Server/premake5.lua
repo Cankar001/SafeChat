@@ -5,6 +5,9 @@ project "SafeChat-Server"
 	staticruntime "off"
 	entrypoint "mainCRTStartup"
 
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-obj/" .. outputdir .. "/%{prj.name}")
+
 	files { "src/**.h", "src/**.cpp" }
 
 	includedirs

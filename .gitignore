@@ -1,7 +1,7 @@
 # Binaries
 **/bin/
 !vendor/Steam/**/bin
-bin-int/
+bin-obj/
 builds/
 
 # Log files
