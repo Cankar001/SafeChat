@@ -16,6 +16,9 @@ project "SafeChat-Client"
 	  
 	  -- Core library
 	  "%{includedir.safechat_core}",
+	  
+	  -- Steam networking library
+	  "%{includedir.steam_networking}",
 	}
 
 	links
